@@ -19,6 +19,11 @@ class Query(graphene.ObjectType):
         id=graphene.Int(required=True)
     )
 
+    search_book = graphene.List(
+    BookType,
+    word=graphene.String(required=True)
+)
+
     def resolve_books(self, info):
         return Book.objects.all()
     
@@ -28,6 +33,12 @@ class Query(graphene.ObjectType):
 
         except Book.DoesNotExist:
             return None
+        
+    def resolve_search_book(self, info, word):
+
+        return Book.objects.filter(
+        title=word
+        )
 
 
 schema = graphene.Schema(query=Query)

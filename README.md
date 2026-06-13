@@ -168,3 +168,33 @@ Example:
     price
   }
 }
+
+## Search Book Query
+
+graphene.String
+
+Used for string arguments.
+
+Example:
+
+word=graphene.String(required=True)
+
+filter()
+
+Used to search objects.
+
+Example:
+
+Book.objects.filter(
+    title="Python"
+)
+
+Difference
+
+get()
+- Returns one object
+- Raises exception
+
+filter()
+- Returns list
+- Returns empty list if not found
