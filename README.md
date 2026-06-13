@@ -198,3 +198,71 @@ get()
 filter()
 - Returns list
 - Returns empty list if not found
+
+## Create Mutation
+
+graphene.Mutation
+
+Used for:
+
+- Create
+- Update
+- Delete
+
+class Arguments
+
+Defines input fields.
+
+mutate()
+
+Performs database operations.
+
+Example:
+
+mutation{
+
+createBook(
+
+title:"Learning GraphQL"
+
+author:"Sanath"
+
+price:850
+
+){
+
+success
+
+book{
+
+id
+
+title
+
+}
+
+}
+
+}
+
+## Update Mutation
+
+Optional Arguments:
+
+title=None
+
+author=None
+
+price=None
+
+Why?
+
+Allows partial updates.
+
+Book.DoesNotExist
+
+Raised when record is not found.
+
+try-except
+
+Used for error handling.

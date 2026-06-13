@@ -89,9 +89,87 @@ class CreateBook(graphene.Mutation):
 
         )
     
+class UpdateBook(graphene.Mutation):
+
+    success = graphene.Boolean(required=True)
+
+    book = graphene.Field(BookType)
+
+
+    class Arguments:
+
+        id = graphene.Int(required=True)
+
+        title = graphene.String()
+
+        author = graphene.String()
+
+        price = graphene.Int()
+
+
+    def mutate(
+
+        self,
+
+        info,
+
+        id,
+
+        title=None,
+
+        author=None,
+
+        price=None
+
+    ):
+
+        try:
+
+            book_obj = Book.objects.get(id=id)
+
+
+            if title is not None:
+
+                book_obj.title = title
+
+
+            if author is not None:
+
+                book_obj.author = author
+
+
+            if price is not None:
+
+                book_obj.price = price
+
+
+            book_obj.save()
+
+
+            return UpdateBook(
+
+                success=True,
+
+                book=book_obj
+
+            )
+
+
+        except Book.DoesNotExist:
+
+            return UpdateBook(
+
+                success=False,
+
+                book=None
+
+            )
+    
 class Mutation(graphene.ObjectType):
 
     create_book = CreateBook.Field()
+
+    update_book = UpdateBook.Field()
 
 schema = graphene.Schema(
 
