@@ -164,12 +164,57 @@ class UpdateBook(graphene.Mutation):
                 book=None
 
             )
+        
+class DeleteBook(graphene.Mutation):
+
+    success = graphene.Boolean(required=True)
+
+
+    class Arguments:
+
+        id = graphene.Int(required=True)
+
+
+    def mutate(
+
+        self,
+
+        info,
+
+        id
+
+    ):
+
+        try:
+
+            book_obj = Book.objects.get(id=id)
+
+            book_obj.delete()
+
+
+            return DeleteBook(
+
+                success=True
+
+            )
+
+
+        except Book.DoesNotExist:
+
+
+            return DeleteBook(
+
+                success=False
+
+            )
     
 class Mutation(graphene.ObjectType):
 
     create_book = CreateBook.Field()
 
     update_book = UpdateBook.Field()
+
+    delete_book = DeleteBook.Field()
 
 schema = graphene.Schema(
 

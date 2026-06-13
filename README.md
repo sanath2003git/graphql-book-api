@@ -266,3 +266,30 @@ Raised when record is not found.
 try-except
 
 Used for error handling.
+
+## Delete Mutation
+
+delete()
+
+Deletes object from database.
+
+Example:
+
+book.delete()
+
+Equivalent SQL:
+
+DELETE FROM blog_book
+WHERE id=1;
+
+Mutation:
+
+mutation{
+
+deleteBook(id:1){
+
+success
+
+}
+
+}
