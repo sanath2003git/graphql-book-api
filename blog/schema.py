@@ -37,7 +37,7 @@ class Query(graphene.ObjectType):
     def resolve_search_book(self, info, word):
 
         return Book.objects.filter(
-        title=word
+        title__icontains=word
         )
 
 
