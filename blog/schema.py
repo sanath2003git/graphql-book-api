@@ -9,7 +9,6 @@ class BookType(DjangoObjectType):
     class Meta:
         model = Book
 
-
 class Query(graphene.ObjectType):
 
     books = graphene.List(BookType)
@@ -40,5 +39,64 @@ class Query(graphene.ObjectType):
         title__icontains=word
         )
 
+class CreateBook(graphene.Mutation):
 
-schema = graphene.Schema(query=Query)
+    success = graphene.Boolean(required=True)
+
+    book = graphene.Field(BookType)
+
+
+    class Arguments:
+
+        title = graphene.String(required=True)
+
+        author = graphene.String(required=True)
+
+        price = graphene.Int(required=True)
+
+
+    def mutate(
+
+        self,
+
+        info,
+
+        title,
+
+        author,
+
+        price
+
+    ):
+
+        book_obj = Book(
+
+            title=title,
+
+            author=author,
+
+            price=price
+
+        )
+
+        book_obj.save()
+
+        return CreateBook(
+
+            success=True,
+
+            book=book_obj
+
+        )
+    
+class Mutation(graphene.ObjectType):
+
+    create_book = CreateBook.Field()
+
+schema = graphene.Schema(
+
+    query=Query,
+
+    mutation=Mutation
+
+)
